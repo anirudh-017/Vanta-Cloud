@@ -1,0 +1,26 @@
+# Secrets & env files — NEVER commit these
+.env
+.env.*
+*.env
+data/session_secret.txt
+
+# Runtime data (database, uploaded files, generated secrets)
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Test / tooling caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

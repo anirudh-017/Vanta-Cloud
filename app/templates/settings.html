@@ -1,0 +1,3163 @@
+<!DOCTYPE html>
+<html lang="en"
+ data-theme="{{ settings.theme }}">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#080a0e"
+    >
+
+    <title>
+        Settings · Vanta Cloud
+    </title>
+
+
+    <style>
+
+        /* =================================================
+           RESET
+           ================================================= */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            padding: 28px;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                system-ui,
+                sans-serif;
+
+            color:
+                rgba(255, 255, 255, 0.95);
+
+            background:
+                radial-gradient(
+                    circle at 12% 8%,
+                    rgba(100, 126, 160, 0.12),
+                    transparent 32%
+                ),
+
+                radial-gradient(
+                    circle at 88% 80%,
+                    rgba(120, 102, 145, 0.08),
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    145deg,
+                    #07090d,
+                    #0d1117 45%,
+                    #151b23
+                );
+
+            -webkit-font-smoothing:
+                antialiased;
+
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+
+        button,
+        select {
+            cursor: pointer;
+        }
+
+
+        a {
+            color: inherit;
+        }
+
+
+        .page {
+
+            width:
+                min(
+                    1180px,
+                    100%
+                );
+
+            margin:
+                0 auto;
+
+        }
+
+
+        /* =================================================
+           TOPBAR
+           ================================================= */
+
+        .topbar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 18px;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .brand h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .brand p {
+
+            margin:
+                7px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.38);
+
+            font-size: 11px;
+
+        }
+
+
+        .top-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+        }
+
+
+        .button-link,
+        .logout-button {
+
+            min-height: 40px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                0 14px;
+
+            border-radius: 11px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.09);
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            color:
+                rgba(255, 255, 255, 0.72);
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+        }
+
+
+        .button-link:hover,
+        .logout-button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.065);
+
+        }
+
+
+        .logout-form {
+            margin: 0;
+        }
+
+
+        /* =================================================
+           HERO
+           ================================================= */
+
+        .hero {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+
+            padding: 24px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.09);
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+        }
+
+
+        .eyebrow {
+
+            display: inline-block;
+
+            color:
+                rgba(255, 255, 255, 0.30);
+
+            font-size: 9px;
+
+            font-weight: 750;
+
+            letter-spacing: 1.4px;
+
+        }
+
+
+        .hero h2 {
+
+            margin:
+                7px 0 0;
+
+            font-size: 25px;
+
+            letter-spacing: -0.7px;
+
+        }
+
+
+        .hero p {
+
+            max-width: 650px;
+
+            margin:
+                8px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.40);
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .admin-pill {
+
+            flex: 0 0 auto;
+
+            padding:
+                7px 10px;
+
+            border-radius: 999px;
+
+            border:
+                1px solid
+                rgba(135, 205, 160, 0.14);
+
+            background:
+                rgba(135, 205, 160, 0.05);
+
+            color:
+                rgba(155, 220, 178, 0.72);
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =================================================
+           MESSAGES
+           ================================================= */
+
+        .message {
+
+            margin-bottom: 18px;
+
+            padding:
+                11px 13px;
+
+            border-radius: 12px;
+
+            font-size: 10px;
+
+        }
+
+
+        .message.success {
+
+            border:
+                1px solid
+                rgba(115, 205, 145, 0.18);
+
+            background:
+                rgba(115, 205, 145, 0.06);
+
+            color:
+                #9ed8b2;
+
+        }
+
+
+        .message.error {
+
+            border:
+                1px solid
+                rgba(230, 125, 125, 0.18);
+
+            background:
+                rgba(230, 125, 125, 0.055);
+
+            color:
+                #e8a4a4;
+
+        }
+
+
+        /* =================================================
+           LAYOUT
+           ================================================= */
+
+        .settings-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                240px
+                minmax(0, 1fr);
+
+            gap: 18px;
+
+            align-items: start;
+
+        }
+
+
+        /* =================================================
+           SIDEBAR
+           ================================================= */
+
+        .settings-nav {
+
+            position: sticky;
+
+            top: 20px;
+
+            padding: 12px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            border-radius: 17px;
+
+            background:
+                rgba(255, 255, 255, 0.025);
+
+        }
+
+
+        .settings-nav a {
+
+            min-height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding:
+                0 11px;
+
+            border-radius: 9px;
+
+            color:
+                rgba(255, 255, 255, 0.44);
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+        }
+
+
+        .settings-nav a:hover {
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            color:
+                rgba(255, 255, 255, 0.75);
+
+        }
+
+
+        /* =================================================
+           SETTINGS CONTENT
+           ================================================= */
+
+        .settings-content {
+
+            display: grid;
+
+            gap: 16px;
+
+        }
+
+
+        .settings-card {
+
+            scroll-margin-top: 20px;
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            border-radius: 18px;
+
+            background:
+                rgba(255, 255, 255, 0.025);
+
+        }
+
+
+        .settings-card-header {
+
+            padding:
+                18px 19px;
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.06);
+
+        }
+
+
+        .settings-card-header h3 {
+
+            margin: 0;
+
+            font-size: 15px;
+
+            letter-spacing: -0.3px;
+
+        }
+
+
+        .settings-card-header p {
+
+            margin:
+                5px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.30);
+
+            font-size: 9px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .settings-card-body {
+
+            padding: 19px;
+
+        }
+
+
+        /* =================================================
+           FIELD
+           ================================================= */
+
+        .field {
+
+            margin-bottom: 17px;
+
+        }
+
+
+        .field:last-child {
+            margin-bottom: 0;
+        }
+
+
+        .field label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color:
+                rgba(255, 255, 255, 0.48);
+
+            font-size: 9px;
+
+            font-weight: 650;
+
+        }
+
+
+        .field-note {
+
+            margin:
+                6px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.24);
+
+            font-size: 8px;
+
+            line-height: 1.5;
+
+        }
+
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+
+            width: 100%;
+
+            min-height: 43px;
+
+            padding:
+                9px 11px;
+
+            border-radius: 11px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.09);
+
+            outline: none;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            color:
+                rgba(255, 255, 255, 0.84);
+
+            font-size: 10px;
+
+        }
+
+
+        textarea {
+
+            min-height: 82px;
+
+            resize: vertical;
+
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color:
+                rgba(190, 210, 235, 0.22);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(185, 205, 235, 0.03);
+
+        }
+
+
+        select option {
+            color: black;
+        }
+
+
+        .two-column {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+
+            gap: 13px;
+
+        }
+
+
+        /* =================================================
+           TOGGLE ROW
+           ================================================= */
+
+        .toggle-list {
+
+            display: grid;
+
+            gap: 9px;
+
+        }
+
+
+        .toggle-row {
+
+            min-height: 62px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 18px;
+
+            padding:
+                12px 13px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.06);
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.018);
+
+        }
+
+
+        .toggle-copy {
+
+            min-width: 0;
+
+        }
+
+
+        .toggle-copy strong {
+
+            display: block;
+
+            font-size: 10px;
+
+            font-weight: 650;
+
+        }
+
+
+        .toggle-copy span {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color:
+                rgba(255, 255, 255, 0.27);
+
+            font-size: 8px;
+
+            line-height: 1.45;
+
+        }
+
+
+        /* =================================================
+           SWITCH
+           ================================================= */
+
+        .switch {
+
+            position: relative;
+
+            flex:
+                0 0
+                42px;
+
+            width: 42px;
+
+            height: 23px;
+
+        }
+
+
+        .switch input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+        }
+
+
+        .switch-slider {
+
+            position: absolute;
+
+            inset: 0;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            transition:
+                background 150ms ease;
+
+        }
+
+
+        .switch-slider::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 3px;
+            left: 3px;
+
+            width: 17px;
+            height: 17px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.65);
+
+            transition:
+                transform 150ms ease,
+                background 150ms ease;
+
+        }
+
+
+        .switch input:checked
+        +
+        .switch-slider {
+
+            background:
+                rgba(150, 185, 220, 0.42);
+
+        }
+
+
+        .switch input:checked
+        +
+        .switch-slider::before {
+
+            transform:
+                translateX(19px);
+
+            background:
+                white;
+
+        }
+
+
+        /* =================================================
+           THEME CHOICES
+           ================================================= */
+
+        .theme-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    minmax(0, 1fr)
+                );
+
+            gap: 10px;
+
+        }
+
+
+        .theme-option {
+
+            position: relative;
+
+            cursor: pointer;
+
+        }
+
+
+        .theme-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+        }
+
+
+        .theme-card {display: block;
+width: 100%;
+
+            min-height: 100px;
+
+            padding: 13px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.075);
+
+            border-radius: 13px;
+
+            background:
+                rgba(255, 255, 255, 0.02);
+
+            transition:
+                border-color 150ms ease,
+                background 150ms ease;
+
+        }
+
+
+        .theme-option input:checked
+        +
+        .theme-card {
+
+            border-color:
+                rgba(190, 210, 235, 0.30);
+
+            background:
+                rgba(190, 210, 235, 0.06);
+
+        }
+
+
+        .theme-preview {display: block;
+width: 100%;
+
+            height: 46px;
+
+            margin-bottom: 10px;
+
+            border-radius: 8px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+        }
+
+
+        .theme-preview.system {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #e8ecf1 50%,
+                    #11161d 50%
+                );
+
+        }
+
+
+        .theme-preview.dark {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #07090d,
+                    #1b222b
+                );
+
+        }
+
+
+        .theme-preview.light {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f7f8fa,
+                    #dfe5ec
+                );
+
+        }
+
+
+        .theme-card strong {
+
+            display: block;
+
+            font-size: 10px;
+
+        }
+
+
+        .theme-card span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            color:
+                rgba(255, 255, 255, 0.27);
+
+            font-size: 8px;
+
+        }
+
+
+        /* =================================================
+           STORAGE
+           ================================================= */
+
+        .storage-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    4,
+                    minmax(0, 1fr)
+                );
+
+            gap: 10px;
+
+        }
+
+
+        .stat-card {
+
+            padding: 14px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.06);
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.018);
+
+        }
+
+
+        .stat-card span {
+
+            display: block;
+
+            color:
+                rgba(255, 255, 255, 0.27);
+
+            font-size: 8px;
+
+        }
+
+
+        .stat-card strong {
+
+            display: block;
+
+            margin-top: 7px;
+
+            font-size: 15px;
+
+            letter-spacing: -0.4px;
+
+        }
+
+
+        .storage-path {
+
+            margin-top: 13px;
+
+            padding:
+                11px 12px;
+
+            overflow-wrap: anywhere;
+
+            border-radius: 10px;
+
+            background:
+                rgba(0, 0, 0, 0.18);
+
+            color:
+                rgba(255, 255, 255, 0.38);
+
+            font-family:
+                "Cascadia Code",
+                Consolas,
+                monospace;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =================================================
+           SYSTEM
+           ================================================= */
+
+        .system-list {
+
+            display: grid;
+
+            gap: 1px;
+
+        }
+
+
+        .system-row {
+
+            min-height: 44px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding:
+                8px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.05);
+
+        }
+
+
+        .system-row:last-child {
+            border-bottom: 0;
+        }
+
+
+        .system-row span {
+
+            color:
+                rgba(255, 255, 255, 0.34);
+
+            font-size: 9px;
+
+        }
+
+
+        .system-row strong {
+
+            color:
+                rgba(255, 255, 255, 0.67);
+
+            font-size: 9px;
+
+            text-align: right;
+
+        }
+
+
+        .status-online {
+
+            color:
+                #9ed5b1 !important;
+
+        }
+
+
+        /* =================================================
+           SAVE BAR
+           ================================================= */
+
+        .save-bar {
+
+            position: sticky;
+
+            bottom: 14px;
+
+            z-index: 20;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 16px;
+
+            padding:
+                13px 15px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.10);
+
+            border-radius: 14px;
+
+            background:
+                rgba(18, 23, 30, 0.96);
+
+            box-shadow:
+                0 20px 55px
+                rgba(0, 0, 0, 0.35);
+
+        }
+
+
+        .save-copy {
+
+            color:
+                rgba(255, 255, 255, 0.32);
+
+            font-size: 9px;
+
+        }
+
+
+        .save-button {
+
+            min-height: 40px;
+
+            padding:
+                0 17px;
+
+            border: 0;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #dce6f2,
+                    #acbccf
+                );
+
+            color:
+                #11161c;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =================================================
+           MOBILE
+           ================================================= */
+
+        @media (max-width: 900px) {
+
+            .settings-layout {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .settings-nav {
+
+                position: static;
+
+                display: flex;
+
+                gap: 4px;
+
+                overflow-x: auto;
+
+            }
+
+
+            .settings-nav a {
+
+                flex: 0 0 auto;
+
+            }
+
+
+            .storage-grid {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 14px;
+            }
+
+
+            .topbar {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .top-actions {
+
+                width: 100%;
+
+            }
+
+
+            .button-link,
+            .logout-form,
+            .logout-button {
+
+                flex: 1;
+
+            }
+
+
+            .logout-form {
+                display: flex;
+            }
+
+
+            .hero {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .two-column,
+            .theme-grid,
+            .storage-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .toggle-row {
+
+                gap: 12px;
+
+            }
+
+
+            .save-bar {
+
+                align-items: stretch;
+
+                flex-direction: column;
+
+            }
+
+
+            .save-button {
+
+                width: 100%;
+
+            }
+
+        }
+/* =================================================
+   SETTINGS LIGHT THEME
+   ================================================= */
+
+html[data-theme="light"] body {
+
+    color:
+        #17202b;
+
+    background:
+
+        radial-gradient(
+            circle at 12% 8%,
+            rgba(121, 151, 188, 0.16),
+            transparent 32%
+        ),
+
+        radial-gradient(
+            circle at 88% 80%,
+            rgba(156, 132, 180, 0.10),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            145deg,
+            #f4f6f8,
+            #eef2f6 48%,
+            #e7edf3
+        );
+
+}
+
+
+html[data-theme="light"] .brand h1,
+html[data-theme="light"] .hero h2,
+html[data-theme="light"] .settings-card-header h3,
+html[data-theme="light"] .toggle-copy strong,
+html[data-theme="light"] .theme-card strong,
+html[data-theme="light"] .stat-card strong {
+
+    color:
+        #17202b;
+
+}
+
+
+html[data-theme="light"] .brand p,
+html[data-theme="light"] .hero p,
+html[data-theme="light"] .eyebrow,
+html[data-theme="light"] .settings-card-header p,
+html[data-theme="light"] .field label,
+html[data-theme="light"] .field-note,
+html[data-theme="light"] .toggle-copy span,
+html[data-theme="light"] .theme-card span,
+html[data-theme="light"] .stat-card span,
+html[data-theme="light"] .system-row span,
+html[data-theme="light"] .save-copy {
+
+    color:
+        rgba(23, 32, 43, 0.46);
+
+}
+
+
+html[data-theme="light"] .hero,
+html[data-theme="light"] .settings-nav,
+html[data-theme="light"] .settings-card,
+html[data-theme="light"] .toggle-row,
+html[data-theme="light"] .stat-card {
+
+    border-color:
+        rgba(22, 34, 49, 0.10);
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+}
+
+
+html[data-theme="light"] .settings-card-header {
+
+    border-bottom-color:
+        rgba(22, 34, 49, 0.08);
+
+}
+
+
+html[data-theme="light"] .settings-nav a {
+
+    color:
+        rgba(23, 32, 43, 0.52);
+
+}
+
+
+html[data-theme="light"] .settings-nav a:hover {
+
+    background:
+        rgba(31, 50, 72, 0.06);
+
+    color:
+        #17202b;
+
+}
+
+
+html[data-theme="light"] .button-link,
+html[data-theme="light"] .logout-button {
+
+    border-color:
+        rgba(22, 34, 49, 0.10);
+
+    background:
+        rgba(255, 255, 255, 0.66);
+
+    color:
+        rgba(23, 32, 43, 0.70);
+
+}
+
+
+html[data-theme="light"] .button-link:hover,
+html[data-theme="light"] .logout-button:hover {
+
+    background:
+        #ffffff;
+
+    color:
+        #17202b;
+
+}
+
+
+html[data-theme="light"] input[type="text"],
+html[data-theme="light"] input[type="number"],
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+
+    border-color:
+        rgba(22, 34, 49, 0.11);
+
+    background:
+        rgba(255, 255, 255, 0.78);
+
+    color:
+        #17202b;
+
+}
+
+
+html[data-theme="light"] input:focus,
+html[data-theme="light"] select:focus,
+html[data-theme="light"] textarea:focus {
+
+    border-color:
+        rgba(69, 99, 133, 0.30);
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(69, 99, 133, 0.08);
+
+}
+
+
+html[data-theme="light"] .theme-card {
+
+    border-color:
+        rgba(22, 34, 49, 0.10);
+
+    background:
+        rgba(255, 255, 255, 0.55);
+
+}
+
+
+html[data-theme="light"]
+.theme-option input:checked
++
+.theme-card {
+
+    border-color:
+        rgba(69, 99, 133, 0.34);
+
+    background:
+        rgba(80, 112, 148, 0.08);
+
+}
+
+
+html[data-theme="light"] .switch-slider {
+
+    background:
+        rgba(23, 32, 43, 0.14);
+
+}
+
+
+html[data-theme="light"]
+.switch input:checked
++
+.switch-slider {
+
+    background:
+        rgba(73, 108, 145, 0.48);
+
+}
+
+
+html[data-theme="light"] .storage-path {
+
+    background:
+        rgba(31, 50, 72, 0.055);
+
+    color:
+        rgba(23, 32, 43, 0.58);
+
+}
+
+
+html[data-theme="light"] .system-row {
+
+    border-bottom-color:
+        rgba(22, 34, 49, 0.07);
+
+}
+
+
+html[data-theme="light"] .system-row strong {
+
+    color:
+        rgba(23, 32, 43, 0.72);
+
+}
+
+
+html[data-theme="light"] .save-bar {
+
+    border-color:
+        rgba(22, 34, 49, 0.11);
+
+    background:
+        rgba(247, 249, 252, 0.96);
+
+    box-shadow:
+        0 20px 55px
+        rgba(28, 39, 54, 0.14);
+
+}
+
+
+html[data-theme="light"] .save-button {
+
+    background:
+        linear-gradient(
+            145deg,
+            #26384d,
+            #536d8a
+        );
+
+    color:
+        white;
+
+}
+
+
+/* =================================================
+   SYSTEM THEME
+   ================================================= */
+
+@media (prefers-color-scheme: light) {
+
+    html[data-theme="system"] body {
+
+        color:
+            #17202b;
+
+        background:
+
+            radial-gradient(
+                circle at 12% 8%,
+                rgba(121, 151, 188, 0.16),
+                transparent 32%
+            ),
+
+            radial-gradient(
+                circle at 88% 80%,
+                rgba(156, 132, 180, 0.10),
+                transparent 35%
+            ),
+
+            linear-gradient(
+                145deg,
+                #f4f6f8,
+                #eef2f6 48%,
+                #e7edf3
+            );
+
+    }
+
+
+    html[data-theme="system"] .brand h1,
+    html[data-theme="system"] .hero h2,
+    html[data-theme="system"] .settings-card-header h3,
+    html[data-theme="system"] .toggle-copy strong,
+    html[data-theme="system"] .theme-card strong,
+    html[data-theme="system"] .stat-card strong {
+
+        color:
+            #17202b;
+
+    }
+
+
+    html[data-theme="system"] .brand p,
+    html[data-theme="system"] .hero p,
+    html[data-theme="system"] .eyebrow,
+    html[data-theme="system"] .settings-card-header p,
+    html[data-theme="system"] .field label,
+    html[data-theme="system"] .field-note,
+    html[data-theme="system"] .toggle-copy span,
+    html[data-theme="system"] .theme-card span,
+    html[data-theme="system"] .stat-card span,
+    html[data-theme="system"] .system-row span,
+    html[data-theme="system"] .save-copy {
+
+        color:
+            rgba(23, 32, 43, 0.46);
+
+    }
+
+
+    html[data-theme="system"] .hero,
+    html[data-theme="system"] .settings-nav,
+    html[data-theme="system"] .settings-card,
+    html[data-theme="system"] .toggle-row,
+    html[data-theme="system"] .stat-card {
+
+        border-color:
+            rgba(22, 34, 49, 0.10);
+
+        background:
+            rgba(255, 255, 255, 0.72);
+
+    }
+
+
+    html[data-theme="system"] .settings-card-header {
+
+        border-bottom-color:
+            rgba(22, 34, 49, 0.08);
+
+    }
+
+
+    html[data-theme="system"] .settings-nav a {
+
+        color:
+            rgba(23, 32, 43, 0.52);
+
+    }
+
+
+    html[data-theme="system"] .settings-nav a:hover {
+
+        background:
+            rgba(31, 50, 72, 0.06);
+
+        color:
+            #17202b;
+
+    }
+
+
+    html[data-theme="system"] .button-link,
+    html[data-theme="system"] .logout-button {
+
+        border-color:
+            rgba(22, 34, 49, 0.10);
+
+        background:
+            rgba(255, 255, 255, 0.66);
+
+        color:
+            rgba(23, 32, 43, 0.70);
+
+    }
+
+
+    html[data-theme="system"] input[type="text"],
+    html[data-theme="system"] input[type="number"],
+    html[data-theme="system"] select,
+    html[data-theme="system"] textarea {
+
+        border-color:
+            rgba(22, 34, 49, 0.11);
+
+        background:
+            rgba(255, 255, 255, 0.78);
+
+        color:
+            #17202b;
+
+    }
+
+
+    html[data-theme="system"] .theme-card {
+
+        border-color:
+            rgba(22, 34, 49, 0.10);
+
+        background:
+            rgba(255, 255, 255, 0.55);
+
+    }
+
+
+    html[data-theme="system"]
+    .theme-option input:checked
+    +
+    .theme-card {
+
+        border-color:
+            rgba(69, 99, 133, 0.34);
+
+        background:
+            rgba(80, 112, 148, 0.08);
+
+    }
+
+
+    html[data-theme="system"] .switch-slider {
+
+        background:
+            rgba(23, 32, 43, 0.14);
+
+    }
+
+
+    html[data-theme="system"]
+    .switch input:checked
+    +
+    .switch-slider {
+
+        background:
+            rgba(73, 108, 145, 0.48);
+
+    }
+
+
+    html[data-theme="system"] .storage-path {
+
+        background:
+            rgba(31, 50, 72, 0.055);
+
+        color:
+            rgba(23, 32, 43, 0.58);
+
+    }
+
+
+    html[data-theme="system"] .system-row strong {
+
+        color:
+            rgba(23, 32, 43, 0.72);
+
+    }
+
+
+    html[data-theme="system"] .save-bar {
+
+        border-color:
+            rgba(22, 34, 49, 0.11);
+
+        background:
+            rgba(247, 249, 252, 0.96);
+
+        box-shadow:
+            0 20px 55px
+            rgba(28, 39, 54, 0.14);
+
+    }
+
+
+    html[data-theme="system"] .save-button {
+
+        background:
+            linear-gradient(
+                145deg,
+                #26384d,
+                #536d8a
+            );
+
+        color:
+            white;
+
+    }
+
+}
+body {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+input,
+textarea,
+select {
+    -webkit-user-select: text;
+    user-select: text;
+}
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- =================================================
+         TOPBAR
+         ================================================= -->
+
+    <header class="topbar">
+
+
+        <div class="brand">
+
+            <h1>
+                Vanta Cloud
+            </h1>
+
+            <p>
+                Your files. Your space. Completely private.
+            </p>
+
+        </div>
+
+
+        <div class="top-actions">
+
+
+            <a
+                class="button-link"
+                href="/"
+            >
+                Cloud
+            </a>
+
+
+            <a
+                class="button-link"
+                href="/admin"
+            >
+                Admin
+            </a>
+
+
+            <a
+                class="button-link"
+                href="/admin/trash"
+            >
+                Trash
+            </a>
+
+
+            <form
+                class="logout-form"
+                action="/logout"
+                method="post"
+            >
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token }}"
+                >
+
+
+                <button
+                    class="logout-button"
+                    type="submit"
+                >
+                    Sign out
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =================================================
+         HERO
+         ================================================= -->
+
+    <section class="hero">
+
+
+        <div>
+
+            <span class="eyebrow">
+                ADMIN SETTINGS
+            </span>
+
+
+            <h2>
+                Configure Vanta
+            </h2>
+
+
+            <p>
+                Control appearance, member permissions,
+                uploads, Trash behavior, and interface options.
+            </p>
+
+        </div>
+
+
+        <span class="admin-pill">
+            ADMIN · {{ current_user.username }}
+        </span>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         MESSAGES
+         ================================================= -->
+
+    {% if request.query_params.get("saved") %}
+
+        <div class="message success">
+            Settings saved successfully.
+        </div>
+
+    {% endif %}
+
+
+    {% if request.query_params.get("error") == "invalid" %}
+
+        <div class="message error">
+            One or more settings contained an invalid value.
+        </div>
+
+    {% endif %}
+
+
+
+    <!-- =================================================
+         SETTINGS FORM
+         ================================================= -->
+
+    <form
+        action="/admin/settings"
+        method="post"
+    >
+
+        <input
+            type="hidden"
+            name="csrf_token"
+            value="{{ csrf_token }}"
+        >
+
+
+
+        <div class="settings-layout">
+
+
+            <!-- =============================================
+                 SIDEBAR
+                 ============================================= -->
+
+            <nav class="settings-nav">
+
+                <a href="#general">
+                    General
+                </a>
+
+                <a href="#appearance">
+                    Appearance
+                </a>
+
+                <a href="#permissions">
+                    Permissions
+                </a>
+
+                <a href="#uploads">
+                    Uploads
+                </a>
+
+                <a href="#trash">
+                    Trash
+                </a>
+
+                <a href="#display">
+                    Display
+                </a>
+
+                <a href="#storage">
+                    Storage
+                </a>
+
+                <a href="#system">
+                    System
+                </a>
+
+            </nav>
+
+
+
+            <!-- =============================================
+                 CONTENT
+                 ============================================= -->
+
+            <div class="settings-content">
+
+
+                <!-- =========================================
+                     GENERAL
+                     ========================================= -->
+
+                <section
+                    class="settings-card"
+                    id="general"
+                >
+
+
+                    <div class="settings-card-header">
+
+                        <h3>
+                            General
+                        </h3>
+
+                        <p>
+                            Basic identity displayed across Vanta Cloud.
+                        </p>
+
+                    </div>
+
+
+                    <div class="settings-card-body">
+
+
+                        <div class="field">
+
+                            <label for="cloud_name">
+                                CLOUD NAME
+                            </label>
+
+                            <input
+                                id="cloud_name"
+                                name="cloud_name"
+                                type="text"
+                                maxlength="60"
+                                value="{{ settings.cloud_name }}"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="tagline">
+                                TAGLINE
+                            </label>
+
+                            <textarea
+                                id="tagline"
+                                name="tagline"
+                                maxlength="140"
+                                required
+                            >{{ settings.tagline }}</textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     APPEARANCE
+                     ========================================= -->
+
+                <section
+                    class="settings-card"
+                    id="appearance"
+                >
+
+
+                    <div class="settings-card-header">
+
+                        <h3>
+                            Appearance
+                        </h3>
+
+                        <p>
+                            Choose how Vanta should look.
+                        </p>
+
+                    </div>
+
+
+                    <div class="settings-card-body">
+
+
+                        <div class="theme-grid">
+
+
+                            <label class="theme-option">
+
+                                <input
+                                    type="radio"
+                                    name="theme"
+                                    value="system"
+                                    {% if settings.theme == "system" %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span class="theme-card">
+
+                                    <span
+                                        class="theme-preview system"
+                                    ></span>
+
+                                    <strong>
+                                        System
+                                    </strong>
+
+                                    <span>
+                                        Follow device preference
+                                    </span>
+
+                                </span>
+
+                            </label>
+
+
+
+                            <label class="theme-option">
+
+                                <input
+                                    type="radio"
+                                    name="theme"
+                                    value="dark"
+                                    {% if settings.theme == "dark" %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span class="theme-card">
+
+                                    <span
+                                        class="theme-preview dark"
+                                    ></span>
+
+                                    <strong>
+                                        Dark
+                                    </strong>
+
+                                    <span>
+                                        Always use dark mode
+                                    </span>
+
+                                </span>
+
+                            </label>
+
+
+
+                            <label class="theme-option">
+
+                                <input
+                                    type="radio"
+                                    name="theme"
+                                    value="light"
+                                    {% if settings.theme == "light" %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span class="theme-card">
+
+                                    <span
+                                        class="theme-preview light"
+                                    ></span>
+
+                                    <strong>
+                                        Light
+                                    </strong>
+
+                                    <span>
+                                        Always use light mode
+                                    </span>
+
+                                </span>
+
+                            </label>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     MEMBER PERMISSIONS
+                     ========================================= -->
+
+                <section
+                    class="settings-card"
+                    id="permissions"
+                >
+
+
+                    <div class="settings-card-header">
+
+                        <h3>
+                            Member permissions
+                        </h3>
+
+                        <p>
+                            Control what normal Member accounts may do.
+                            Administrators remain unrestricted.
+                        </p>
+
+                    </div>
+
+
+                    <div class="settings-card-body">
+
+
+                        <div class="toggle-list">
+
+
+                            <div class="toggle-row">
+
+                                <div class="toggle-copy">
+
+                                    <strong>
+                                        Upload files
+                                    </strong>
+
+                                    <span>
+                                        Allow Members to add files.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        name="allow_member_uploads"
+                                        {% if settings.allow_member_uploads %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <span class="switch-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+
+                            <div class="toggle-row">
+
+                                <div class="toggle-copy">
+
+                                    <strong>
+                                        Download files
+                                    </strong>
+
+                                    <span>
+                                        Allow Members to download files.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        name="allow_member_downloads"
+                                        {% if settings.allow_member_downloads %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <span class="switch-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+
+                            <div class="toggle-row">
+
+                                <div class="toggle-copy">
+
+                                    <strong>
+                                        Preview files
+                                    </strong>
+
+                                    <span>
+                                        Allow browser previews.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        name="allow_member_previews"
+                                        {% if settings.allow_member_previews %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <span class="switch-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+
+                            <div class="toggle-row">
+
+                                <div class="toggle-copy">
+
+                                    <strong>
+                                        Trash own files
+                                    </strong>
+
+                                    <span>
+                                        Members may Trash files they uploaded.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        name="allow_member_trash_own"
+                                        {% if settings.allow_member_trash_own %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <span class="switch-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+
+                            <div class="toggle-row">
+
+                                <div class="toggle-copy">
+
+                                    <strong>
+                                        Rename own files
+                                    </strong>
+
+                                    <span>
+                                        Allow Members to rename files they own.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        name="allow_member_rename_own"
+                                        {% if settings.allow_member_rename_own %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <span class="switch-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     UPLOADS
+                     ========================================= -->
+
+                <section
+                    class="settings-card"
+                    id="uploads"
+                >
+
+
+                    <div class="settings-card-header">
+
+                        <h3>
+                            Uploads
+                        </h3>
+
+                        <p>
+                            Configure limits and duplicate behavior.
+                        </p>
+
+                    </div>
+
+
+                    <div class="settings-card-body">
+
+
+                        <div class="two-column">
+
+
+                            <div class="field">
+
+                                <label for="max_upload_mb">
+                                    MAX FILE SIZE · MB
+                                </label>
+
+                                <input
+                                    id="max_upload_mb"
+                                    name="max_upload_mb"
+                                    type="number"
+                                    min="1"
+                                    max="10240"
+                                    value="{{ settings.max_upload_mb }}"
+                                    required
+                                >
+
+                                <p class="field-note">
+                                    Maximum size for one file.
+                                </p>
+
+                            </div>
+
+
+
+                            <div class="field">
+
+                                <label for="duplicate_behavior">
+                                    DUPLICATE FILE
+                                </label>
+
+                                <select
+                                    id="duplicate_behavior"
+                                    name="duplicate_behavior"
+                                >
+
+                                    <option
+                                        value="rename"
+                                        {% if settings.duplicate_behavior == "rename" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Rename automatically
+                                    </option>
+
+                                    <option
+                                        value="reject"
+                                        {% if settings.duplicate_behavior == "reject" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Reject duplicate
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="field">
+
+                            <label for="allowed_file_types">
+                                ALLOWED FILE TYPES
+                            </label>
+
+                            <select
+                                id="allowed_file_types"
+                                name="allowed_file_types"
+                            >
+
+                                <option value="all">
+                                    All supported files
+                                </option>
+
+                            </select>
+
+                            <p class="field-note">
+                                More granular type restrictions can be
+                                added later without changing the database.
+                            </p>
+
+                        </div>
+
+
+
+                        <div class="toggle-row">
+
+                            <div class="toggle-copy">
+
+                                <strong>
+                                    Multiple file uploads
+                                </strong>
+
+                                <span>
+                                    Allow selecting several files at once.
+                                </span>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    name="multiple_uploads"
+                                    {% if settings.multiple_uploads %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span class="switch-slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     TRASH
+                     ========================================= -->
+
+                <section
+                    class="settings-card"
+                    id="trash"
+                >
+
+
+                    <div class="settings-card-header">
+
+                        <h3>
+                            Trash
+                        </h3>
+
+                        <p>
+                            Configure deleted-file behavior.
+                        </p>
+
+                    </div>
+
+
+                    <div class="settings-card-body">
+
+
+                        <div class="toggle-row">
+
+                            <div class="toggle-copy">
+
+                                <strong>
+                                    Enable Trash
+                                </strong>
+
+                                <span>
+                                    Move files to Trash instead of deleting
+                                    immediately.
+                                </span>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    name="trash_enabled"
+                                    {% if settings.trash_enabled %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <span class="switch-slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <div
+                            class="field"
+                            style="margin-top: 17px;"
+                        >
+
+                            <label for="trash_retention_days">
+                                AUTO DELETE AFTER
+                            </label>
+
+                            <select
+                                id="trash_retention_days"
+                                name="trash_retention_days"
+                            >
+
+                                <option
+                                    value="0"
+                                    {% if settings.trash_retention_days == 0 %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Never
+                                </option>
+
+                                <option
+                                    value="7"
+                                    {% if settings.trash_retention_days == 7 %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    7 days
+                                </option>
+
+                                <option
+                                    value="30"
+                                    {% if settings.trash_retention_days == 30 %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    30 days
+                                </option>
+
+                                <option
+                                    value="90"
+                                    {% if settings.trash_retention_days == 90 %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    90 days
+                                </option>
+
+                            </select>
+
+                            <p class="field-note">
+                                Automatic cleanup logic will be connected
+                                after the core Settings system is enforced.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     DISPLAY
+                     ========================================= -->
+
+                <section
+                    class="settings-card"
+                    id="display"
+                >
+
+
+                    <div class="settings-card-header">
+
+                        <h3>
+                            File display
+                        </h3>
+
+                        <p>
+                            Choose what metadata appears on file cards.
+                        </p>
+
+                    </div>
+
+
+                    <div class="settings-card-body">
+
+
+                        <div class="toggle-list">
+
+
+                            <div class="toggle-row">
+
+                                <div class="toggle-copy">
+
+                                    <strong>
+                                        Show uploader
+                                    </strong>
+
+                                    <span>
+                                        Display who uploaded each file.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        name="show_uploader"
+                                        {% if settings.show_uploader %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <span class="switch-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+
+                            <div class="toggle-row">
+
+                                <div class="toggle-copy">
+
+                                    <strong>
+                                        Show upload time
+                                    </strong>
+
+                                    <span>
+                                        Display upload date and time.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        name="show_upload_time"
+                                        {% if settings.show_upload_time %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <span class="switch-slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div
+                            class="field"
+                            style="margin-top: 17px;"
+                        >
+
+                            <label for="default_view">
+                                DEFAULT LIBRARY VIEW
+                            </label>
+
+                            <select
+                                id="default_view"
+                                name="default_view"
+                            >
+
+                                <option
+                                    value="recent"
+                                    {% if settings.default_view == "recent" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Recent files
+                                </option>
+
+                                <option
+                                    value="Photos"
+                                    {% if settings.default_view == "Photos" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Photos
+                                </option>
+
+                                <option
+                                    value="Videos"
+                                    {% if settings.default_view == "Videos" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Videos
+                                </option>
+
+                                <option
+                                    value="Music"
+                                    {% if settings.default_view == "Music" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Music
+                                </option>
+
+                                <option
+                                    value="Documents"
+                                    {% if settings.default_view == "Documents" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Documents
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     STORAGE
+                     ========================================= -->
+
+                <section
+                    class="settings-card"
+                    id="storage"
+                >
+
+
+                    <div class="settings-card-header">
+
+                        <h3>
+                            Storage
+                        </h3>
+
+                        <p>
+                            Current Vanta Cloud disk usage and location.
+                        </p>
+
+                    </div>
+
+
+                    <div class="settings-card-body">
+
+
+                        <div class="storage-grid">
+
+
+                            <div class="stat-card">
+
+                                <span>
+                                    VANTA FILES
+                                </span>
+
+                                <strong>
+                                    {{ storage.vanta_used_text }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="stat-card">
+
+                                <span>
+                                    TRASH
+                                </span>
+
+                                <strong>
+                                    {{ storage.trash_used_text }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="stat-card">
+
+                                <span>
+                                    DRIVE FREE
+                                </span>
+
+                                <strong>
+                                    {{ storage.drive_free_text }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="stat-card">
+
+                                <span>
+                                    DRIVE TOTAL
+                                </span>
+
+                                <strong>
+                                    {{ storage.drive_total_text }}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="storage-path">
+                            {{ storage_path }}
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     SYSTEM
+                     ========================================= -->
+
+                <section
+                    class="settings-card"
+                    id="system"
+                >
+
+
+                    <div class="settings-card-header">
+
+                        <h3>
+                            System
+                        </h3>
+
+                        <p>
+                            Vanta server environment information.
+                        </p>
+
+                    </div>
+
+
+                    <div class="settings-card-body">
+
+
+                        <div class="system-list">
+
+
+                            <div class="system-row">
+
+                                <span>
+                                    Application
+                                </span>
+
+                                <strong>
+                                    {{ app_name }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="system-row">
+
+                                <span>
+                                    Server
+                                </span>
+
+                                <strong class="status-online">
+                                    Online
+                                </strong>
+
+                            </div>
+
+
+                            <div class="system-row">
+
+                                <span>
+                                    Python
+                                </span>
+
+                                <strong>
+                                    {{ python_version }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="system-row">
+
+                                <span>
+                                    FastAPI
+                                </span>
+
+                                <strong>
+                                    {{ fastapi_version }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="system-row">
+
+                                <span>
+                                    Database
+                                </span>
+
+                                <strong>
+                                    SQLite
+                                </strong>
+
+                            </div>
+
+
+                            <div class="system-row">
+
+                                <span>
+                                    Connection security
+                                </span>
+
+                                <strong>
+                                    HTTP · LAN development
+                                </strong>
+
+                            </div>
+
+
+                            <div class="system-row">
+
+                                <span>
+                                    Administrator
+                                </span>
+
+                                <strong>
+                                    {{ current_user.display_name }}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================================
+                     SAVE
+                     ========================================= -->
+
+                <div class="save-bar">
+
+                    <span class="save-copy">
+                        Changes apply to Vanta Cloud after saving.
+                    </span>
+
+                    <button
+                        class="save-button"
+                        type="submit"
+                    >
+                        Save settings
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </form>
+
+
+</div>
+
+
+</body>
+
+</html>

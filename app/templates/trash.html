@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#080a0e"
+    >
+
+    <title>
+        Trash · Vanta Cloud
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            padding: 28px;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                system-ui,
+                sans-serif;
+
+            color:
+                rgba(255, 255, 255, 0.95);
+
+            background:
+                radial-gradient(
+                    circle at 12% 8%,
+                    rgba(100, 126, 160, 0.12),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 88% 80%,
+                    rgba(120, 102, 145, 0.08),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    145deg,
+                    #07090d,
+                    #0d1117 45%,
+                    #151b23
+                );
+
+            -webkit-font-smoothing:
+                antialiased;
+
+        }
+
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+
+        a {
+            color: inherit;
+        }
+
+
+        .page {
+
+            width:
+                min(
+                    1180px,
+                    100%
+                );
+
+            margin:
+                0 auto;
+
+        }
+
+
+        /* =================================================
+           TOPBAR
+           ================================================= */
+
+        .topbar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 18px;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .brand h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .brand p {
+
+            margin:
+                7px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.38);
+
+            font-size: 11px;
+
+        }
+
+
+        .top-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+        }
+
+
+        .button-link,
+        .logout-button {
+
+            min-height: 40px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                0 14px;
+
+            border-radius: 11px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.09);
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            color:
+                rgba(255, 255, 255, 0.72);
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+        }
+
+
+        .button-link:hover,
+        .logout-button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+        }
+
+
+        .logout-form {
+            margin: 0;
+        }
+
+
+        /* =================================================
+           HERO
+           ================================================= */
+
+        .hero {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+
+            padding: 24px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.09);
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+        }
+
+
+        .eyebrow {
+
+            display: inline-block;
+
+            color:
+                rgba(255, 255, 255, 0.30);
+
+            font-size: 9px;
+
+            font-weight: 750;
+
+            letter-spacing: 1.4px;
+
+        }
+
+
+        .hero h2 {
+
+            margin:
+                7px 0 0;
+
+            font-size: 24px;
+
+            letter-spacing: -0.6px;
+
+        }
+
+
+        .hero p {
+
+            margin:
+                8px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.40);
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .trash-count {
+
+            flex: 0 0 auto;
+
+            padding:
+                7px 10px;
+
+            border-radius: 999px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            background:
+                rgba(255, 255, 255, 0.03);
+
+            color:
+                rgba(255, 255, 255, 0.45);
+
+            font-size: 9px;
+
+        }
+
+
+        /* =================================================
+           MESSAGES
+           ================================================= */
+
+        .message {
+
+            margin-bottom: 18px;
+
+            padding:
+                11px 13px;
+
+            border-radius: 12px;
+
+            font-size: 10px;
+
+        }
+
+
+        .message.success {
+
+            border:
+                1px solid
+                rgba(115, 205, 145, 0.18);
+
+            background:
+                rgba(115, 205, 145, 0.06);
+
+            color:
+                #9ed8b2;
+
+        }
+
+
+        /* =================================================
+           LIST
+           ================================================= */
+
+        .trash-list {
+
+            display: grid;
+
+            gap: 10px;
+
+        }
+
+
+        .trash-item {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(180px, 1fr)
+                110px
+                130px
+                160px
+                210px;
+
+            gap: 12px;
+
+            align-items: center;
+
+            padding: 15px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.07);
+
+            border-radius: 15px;
+
+            background:
+                rgba(255, 255, 255, 0.025);
+
+        }
+
+
+        .file-main {
+
+            min-width: 0;
+
+        }
+
+
+        .file-main strong {
+
+            display: block;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+            font-size: 12px;
+
+        }
+
+
+        .file-main span {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color:
+                rgba(255, 255, 255, 0.28);
+
+            font-size: 8px;
+
+        }
+
+
+        .meta {
+
+            color:
+                rgba(255, 255, 255, 0.42);
+
+            font-size: 9px;
+
+        }
+
+
+        .missing {
+
+            color:
+                #e4a0a0;
+
+        }
+
+
+        .actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 7px;
+
+        }
+
+
+        .actions form {
+            margin: 0;
+        }
+
+
+        .action-button {
+
+            width: 100%;
+
+            min-height: 36px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            color:
+                rgba(255, 255, 255, 0.62);
+
+            font-size: 9px;
+
+        }
+
+
+        .action-button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+        }
+
+
+        .delete-button {
+
+            color:
+                #e5a0a0;
+
+            border-color:
+                rgba(230, 125, 125, 0.14);
+
+            background:
+                rgba(230, 125, 125, 0.035);
+
+        }
+
+
+        /* =================================================
+           EMPTY STATE
+           ================================================= */
+
+        .empty-state {
+
+            min-height: 260px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 35px;
+
+            border:
+                1px dashed
+                rgba(255, 255, 255, 0.09);
+
+            border-radius: 18px;
+
+            text-align: center;
+
+        }
+
+
+        .empty-icon {
+
+            width: 48px;
+            height: 48px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            color:
+                rgba(255, 255, 255, 0.30);
+
+            font-size: 22px;
+
+        }
+
+
+        .empty-state h3 {
+
+            margin:
+                14px 0 5px;
+
+            font-size: 14px;
+
+        }
+
+
+        .empty-state p {
+
+            margin: 0;
+
+            color:
+                rgba(255, 255, 255, 0.28);
+
+            font-size: 9px;
+
+        }
+
+
+        /* =================================================
+           MOBILE
+           ================================================= */
+
+        @media (max-width: 900px) {
+
+            .trash-item {
+
+                grid-template-columns:
+                    1fr
+                    1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 14px;
+            }
+
+
+            .topbar {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .top-actions {
+
+                width: 100%;
+
+            }
+
+
+            .button-link,
+            .logout-form,
+            .logout-button {
+
+                flex: 1;
+
+            }
+
+
+            .logout-form {
+                display: flex;
+            }
+
+
+            .hero {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .trash-item {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .actions {
+
+                grid-template-columns:
+                    1fr
+                    1fr;
+
+            }
+
+        }
+        body {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+input,
+textarea,
+select {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- =================================================
+         TOPBAR
+         ================================================= -->
+
+    <header class="topbar">
+
+
+        <div class="brand">
+
+            <h1>
+                Vanta Cloud
+            </h1>
+
+            <p>
+                Your files. Your space. Completely private.
+            </p>
+
+        </div>
+
+
+        <div class="top-actions">
+
+
+            <a
+                class="button-link"
+                href="/"
+            >
+                Back to Cloud
+            </a>
+
+
+            <a
+                class="button-link"
+                href="/admin"
+            >
+                Admin
+            </a>
+
+
+            <form
+                class="logout-form"
+                action="/logout"
+                method="post"
+            >
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token }}"
+                >
+
+
+                <button
+                    class="logout-button"
+                    type="submit"
+                >
+                    Sign out
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =================================================
+         HERO
+         ================================================= -->
+
+    <section class="hero">
+
+
+        <div>
+
+            <span class="eyebrow">
+                ADMIN TRASH
+            </span>
+
+
+            <h2>
+                Deleted files
+            </h2>
+
+
+            <p>
+                Restore files safely or remove them permanently.
+            </p>
+
+        </div>
+
+
+        <span class="trash-count">
+
+            {{ files | length }}
+            {% if files | length == 1 %}
+                item
+            {% else %}
+                items
+            {% endif %}
+
+        </span>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         MESSAGES
+         ================================================= -->
+
+    {% if request.query_params.get("restored") %}
+
+        <div class="message success">
+            File restored successfully.
+        </div>
+
+    {% endif %}
+
+
+    {% if request.query_params.get("deleted") %}
+
+        <div class="message success">
+            File permanently deleted.
+        </div>
+
+    {% endif %}
+
+
+
+    <!-- =================================================
+         TRASH CONTENT
+         ================================================= -->
+
+    {% if files %}
+
+
+        <div class="trash-list">
+
+
+            {% for file in files %}
+
+
+                <article class="trash-item">
+
+
+                    <!-- FILE -->
+
+                    <div class="file-main">
+
+                        <strong>
+                            {{ file.name }}
+                        </strong>
+
+                        <span>
+                            {{ file.stored_path }}
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="meta">
+                        {{ file.category }}
+                    </div>
+
+
+
+                    <!-- SIZE -->
+
+                    <div class="meta">
+                        {{ file.size_text }}
+                    </div>
+
+
+
+                    <!-- OWNER + TIME -->
+
+                    <div class="meta">
+
+                        <div>
+                            {{ file.owner_name }}
+                        </div>
+
+
+                        {% if file.trashed_at %}
+
+                            <time
+                                class="trash-time"
+                                datetime="{{ file.trashed_at }}"
+                            >
+                                Recently deleted
+                            </time>
+
+                        {% endif %}
+
+
+                        {% if not file.exists %}
+
+                            <div class="missing">
+                                File missing on disk
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="actions">
+
+
+                        <form
+                            action="/admin/trash/{{ file.id }}/restore"
+                            method="post"
+                        >
+
+                            <input
+                                type="hidden"
+                                name="csrf_token"
+                                value="{{ csrf_token }}"
+                            >
+
+
+                            <button
+                                class="action-button"
+                                type="submit"
+                                {% if not file.exists %}
+                                    disabled
+                                {% endif %}
+                            >
+                                Restore
+                            </button>
+
+                        </form>
+
+
+                        <form
+                            action="/admin/trash/{{ file.id }}/delete"
+                            method="post"
+                            onsubmit="return confirm('Permanently delete this file? This cannot be undone.');"
+                        >
+
+                            <input
+                                type="hidden"
+                                name="csrf_token"
+                                value="{{ csrf_token }}"
+                            >
+
+
+                            <button
+                                class="action-button delete-button"
+                                type="submit"
+                            >
+                                Delete forever
+                            </button>
+
+                        </form>
+
+
+                    </div>
+
+
+                </article>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                ♻
+            </div>
+
+            <h3>
+                Trash is empty
+            </h3>
+
+            <p>
+                Files moved to Trash will appear here.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+
+<script>
+
+    /*
+     * Convert UTC/database timestamps into the
+     * browser's local date and time.
+     */
+
+    const trashTimes =
+        document.querySelectorAll(
+            ".trash-time"
+        );
+
+
+    trashTimes.forEach(
+        (element) => {
+
+            const value =
+                element.getAttribute(
+                    "datetime"
+                );
+
+
+            if (!value) {
+                return;
+            }
+
+
+            const date =
+                new Date(
+                    value
+                );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+                return;
+            }
+
+
+            element.textContent =
+                date.toLocaleString(
+                    undefined,
+                    {
+                        dateStyle: "medium",
+                        timeStyle: "short",
+                    }
+                );
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

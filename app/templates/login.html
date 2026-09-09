@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#080a0e"
+    >
+
+    <title>
+        Log in · {{ app_name }}
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: grid;
+
+            place-items: center;
+
+            padding: 24px;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                system-ui,
+                sans-serif;
+
+            color:
+                rgba(255, 255, 255, 0.96);
+
+            background:
+
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(115, 140, 180, 0.15),
+                    transparent 34%
+                ),
+
+                radial-gradient(
+                    circle at 85% 90%,
+                    rgba(130, 115, 165, 0.10),
+                    transparent 36%
+                ),
+
+                linear-gradient(
+                    145deg,
+                    #07090d,
+                    #11161d,
+                    #202630
+                );
+
+            -webkit-font-smoothing:
+                antialiased;
+        }
+
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(255, 255, 255, 0.018),
+                    transparent 35%,
+                    rgba(255, 255, 255, 0.012)
+                );
+        }
+
+
+        .login-shell {
+
+            width:
+                min(
+                    440px,
+                    100%
+                );
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+
+        /* =================================================
+           BRAND
+           ================================================= */
+
+        .brand {
+
+            margin-bottom: 26px;
+
+            text-align: center;
+        }
+
+
+        .brand-mark {
+
+            width: 58px;
+
+            height: 58px;
+
+            margin:
+                0 auto 16px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 19px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.10),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            box-shadow:
+                0 14px 40px
+                rgba(0, 0, 0, 0.28);
+
+            color:
+                rgba(220, 232, 245, 0.94);
+        }
+
+
+        .brand-mark svg {
+
+            width: 29px;
+
+            height: 29px;
+        }
+
+
+        .brand h1 {
+
+            margin: 0;
+
+            font-size:
+                clamp(
+                    32px,
+                    7vw,
+                    44px
+                );
+
+            line-height: 1;
+
+            letter-spacing: -1.6px;
+
+            font-weight: 740;
+        }
+
+
+        .brand p {
+
+            margin:
+                10px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.48);
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =================================================
+           LOGIN CARD
+           ================================================= */
+
+        .login-card {
+
+            padding: 30px;
+
+            border-radius: 28px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.11);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.065),
+                    rgba(255, 255, 255, 0.03)
+                );
+
+            backdrop-filter:
+                blur(12px)
+                saturate(120%);
+
+            -webkit-backdrop-filter:
+                blur(12px)
+                saturate(120%);
+
+            box-shadow:
+                0 30px 80px
+                rgba(0, 0, 0, 0.38),
+
+                inset
+                0 1px 0
+                rgba(255, 255, 255, 0.07);
+        }
+
+
+        .eyebrow {
+
+            color:
+                rgba(255, 255, 255, 0.38);
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        h2 {
+
+            margin:
+                9px 0 8px;
+
+            font-size: 25px;
+
+            letter-spacing: -0.7px;
+        }
+
+
+        .description {
+
+            margin:
+                0 0 24px;
+
+            color:
+                rgba(255, 255, 255, 0.50);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =================================================
+           ERROR
+           ================================================= */
+
+        .error {
+
+            margin-bottom: 18px;
+
+            padding:
+                12px 13px;
+
+            border-radius: 13px;
+
+            border:
+                1px solid
+                rgba(235, 130, 130, 0.24);
+
+            background:
+                rgba(235, 130, 130, 0.08);
+
+            color:
+                #efaaaa;
+
+            font-size: 12px;
+
+            line-height: 1.45;
+        }
+
+
+        /* =================================================
+           FORM
+           ================================================= */
+
+        .field {
+
+            margin-bottom: 16px;
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color:
+                rgba(255, 255, 255, 0.65);
+
+            font-size: 11px;
+        }
+
+
+        .input-wrapper {
+
+            position: relative;
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 13px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            width: 17px;
+
+            height: 17px;
+
+            color:
+                rgba(255, 255, 255, 0.30);
+
+            pointer-events: none;
+        }
+
+
+        input {
+
+            width: 100%;
+
+            min-height: 48px;
+
+            padding:
+                11px
+                13px
+                11px
+                42px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.10);
+
+            outline: none;
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            color: white;
+
+            font-size: 14px;
+
+            transition:
+                border-color 160ms ease,
+                background 160ms ease,
+                box-shadow 160ms ease;
+        }
+
+
+        input[type="hidden"] {
+            display: none;
+        }
+
+
+        input::placeholder {
+
+            color:
+                rgba(255, 255, 255, 0.22);
+        }
+
+
+        input:focus {
+
+            border-color:
+                rgba(190, 210, 240, 0.35);
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(180, 205, 240, 0.06);
+        }
+
+
+        /* =================================================
+           BUTTON
+           ================================================= */
+
+        .login-button {
+
+            width: 100%;
+
+            min-height: 49px;
+
+            margin-top: 5px;
+
+            border: 0;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            color:
+                rgba(12, 15, 20, 0.95);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e4edf7,
+                    #bac8db
+                );
+
+            font-size: 13px;
+
+            font-weight: 720;
+
+            transition:
+                transform 150ms ease,
+                filter 150ms ease,
+                box-shadow 150ms ease;
+
+            box-shadow:
+                0 10px 30px
+                rgba(170, 190, 220, 0.12);
+        }
+
+
+        .login-button:hover {
+
+            filter:
+                brightness(1.04);
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        .login-button:active {
+
+            transform:
+                scale(0.98);
+        }
+
+
+        /* =================================================
+           ACCOUNT HELP
+           ================================================= */
+
+        .account-help {
+
+            margin:
+                18px 0 0;
+
+            padding:
+                13px 14px;
+
+            border-radius: 13px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            background:
+                rgba(255, 255, 255, 0.025);
+
+            color:
+                rgba(255, 255, 255, 0.42);
+
+            font-size: 11px;
+
+            line-height: 1.55;
+
+            text-align: center;
+        }
+
+
+        .account-help strong {
+
+            color:
+                rgba(255, 255, 255, 0.70);
+        }
+
+
+        /* =================================================
+           FOOTER
+           ================================================= */
+
+        .footer-note {
+
+            margin:
+                20px 0 0;
+
+            text-align: center;
+
+            color:
+                rgba(255, 255, 255, 0.34);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+        }
+
+
+        .privacy-line {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            gap: 6px;
+        }
+
+
+        .privacy-dot {
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background:
+                #8dd3a7;
+
+            box-shadow:
+                0 0 8px
+                rgba(141, 211, 167, 0.35);
+        }
+
+
+        /* =================================================
+           MOBILE
+           ================================================= */
+
+        @media (max-width: 520px) {
+
+            body {
+
+                padding: 16px;
+
+                background:
+                    linear-gradient(
+                        145deg,
+                        #080a0e,
+                        #12171d,
+                        #1c222a
+                    );
+            }
+
+
+            .login-card {
+
+                padding: 23px;
+
+                border-radius: 22px;
+
+                backdrop-filter: none;
+
+                -webkit-backdrop-filter: none;
+
+                background:
+                    rgba(255, 255, 255, 0.055);
+            }
+
+
+            .brand-mark {
+
+                width: 52px;
+
+                height: 52px;
+            }
+
+
+            .brand h1 {
+
+                font-size: 34px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-shell">
+
+
+    <!-- =================================================
+         BRAND
+         ================================================= -->
+
+    <div class="brand">
+
+
+        <div class="brand-mark">
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+            >
+                <path
+                    d="M7.5 18.5H17a4 4 0 0 0 .7-7.94A6 6 0 0 0 6.26 8.8 4.85 4.85 0 0 0 7.5 18.5Z"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+
+        </div>
+
+
+        <h1>
+            {{ app_name }}
+        </h1>
+
+
+        <p>
+            {{ tagline }}
+        </p>
+
+
+    </div>
+
+
+    <!-- =================================================
+         LOGIN CARD
+         ================================================= -->
+
+    <main class="login-card">
+
+
+        <span class="eyebrow">
+            PRIVATE ACCESS
+        </span>
+
+
+        <h2>
+            Welcome back
+        </h2>
+
+
+        <p class="description">
+            Log in to access your private cloud.
+        </p>
+
+
+        <!-- =============================================
+             ERROR MESSAGE
+             ============================================= -->
+
+        {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- =============================================
+             LOGIN FORM
+             ============================================= -->
+
+        <form
+            action="/login"
+            method="post"
+        >
+
+
+            <!-- CSRF TOKEN -->
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token }}"
+            >
+
+
+            <!-- USERNAME -->
+
+            <div class="field">
+
+                <label for="username">
+                    Username
+                </label>
+
+
+                <div class="input-wrapper">
+
+
+                    <svg
+                        class="input-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+
+                        <circle
+                            cx="12"
+                            cy="8"
+                            r="3.4"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                        />
+
+                        <path
+                            d="M5.5 19c.7-3.3 3.1-5 6.5-5s5.8 1.7 6.5 5"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                        />
+
+                    </svg>
+
+
+                    <input
+                        id="username"
+                        name="username"
+                        type="text"
+                        placeholder="Enter username"
+                        autocomplete="username"
+                        autocapitalize="none"
+                        spellcheck="false"
+                        required
+                        autofocus
+                    >
+
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="field">
+
+                <label for="password">
+                    Password
+                </label>
+
+
+                <div class="input-wrapper">
+
+
+                    <svg
+                        class="input-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+
+                        <rect
+                            x="5"
+                            y="10"
+                            width="14"
+                            height="10"
+                            rx="2.5"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                        />
+
+                        <path
+                            d="M8 10V7.7A4 4 0 0 1 12 4a4 4 0 0 1 4 3.7V10"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                        />
+
+                    </svg>
+
+
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+
+                </div>
+
+            </div>
+
+
+            <!-- LOG IN -->
+
+            <button
+                class="login-button"
+                type="submit"
+            >
+                Log in
+            </button>
+
+
+        </form>
+
+
+        <!-- =============================================
+             ACCOUNT HELP
+             ============================================= -->
+
+        <div class="account-help">
+
+            <strong>
+                Need an account?
+            </strong>
+
+            <br>
+
+            Ask your Vanta Cloud administrator
+            to create an account for you.
+
+        </div>
+
+
+        <!-- =============================================
+             PRIVACY MESSAGE
+             ============================================= -->
+
+        <p class="footer-note">
+
+            <span class="privacy-line">
+
+                <span class="privacy-dot"></span>
+
+                {{ hero_text }}
+
+            </span>
+
+        </p>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

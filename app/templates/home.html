@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html
+    lang="en"
+    data-theme="{{ theme }}"
+    data-default-view="{{ default_view }}"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#080a0e"
+    >
+    <meta
+    name="csrf-token"
+    content="{{ csrf_token }}"
+>
+
+    <title>
+        {{ app_name }}
+    </title>
+
+
+    <!-- Resolve System / Dark / Light before CSS paints. -->
+    <script>
+        (() => {
+            const root = document.documentElement;
+            const preference = root.dataset.theme || "system";
+            const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+            const applyTheme = () => {
+                const resolved =
+                    preference === "system"
+                        ? (media.matches ? "dark" : "light")
+                        : preference;
+
+                root.dataset.themeResolved = resolved;
+                root.style.colorScheme = resolved;
+
+                const themeColor = document.querySelector(
+                    'meta[name="theme-color"]'
+                );
+
+                if (themeColor) {
+                    themeColor.content =
+                        resolved === "dark"
+                            ? "#080a0e"
+                            : "#f4f6f8";
+                }
+            };
+
+            applyTheme();
+
+            if (
+                preference === "system"
+                && media.addEventListener
+            ) {
+                media.addEventListener("change", applyTheme);
+            }
+        })();
+    </script>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css?v=5"
+    >
+
+    <script
+        src="/static/app.js?v=5"
+        defer
+    ></script>
+
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+     APP SHELL
+     ====================================================== -->
+
+<div class="app-shell">
+
+
+    <!-- ==================================================
+         HEADER
+         ================================================== -->
+
+    <header class="topbar">
+
+
+        <a
+            class="brand"
+            href="/"
+            aria-label="Vanta Cloud home"
+        >
+
+            <span class="brand-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="M7.5 18.5H17a4 4 0 0 0 .7-7.94A6 6 0 0 0 6.26 8.8 4.85 4.85 0 0 0 7.5 18.5Z"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+
+            </span>
+
+
+            <span class="brand-copy">
+
+                <strong>
+                    {{ app_name }}
+                </strong>
+
+                <small>
+                    {{ tagline }}
+                </small>
+
+            </span>
+
+        </a>
+
+
+
+        <div class="topbar-actions">
+
+
+            {% if current_user_is_admin %}
+
+                <a
+                    class="topbar-button secondary-button"
+                    href="/admin"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 3 19 6v5c0 4.3-2.8 8.1-7 10-4.2-1.9-7-5.7-7-10V6l7-3Z"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linejoin="round"
+                        />
+
+                        <path
+                            d="M9.5 12 11 13.5l3.5-3.5"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+
+                    <span>
+                        Admin
+                    </span>
+
+                </a>
+
+            {% endif %}
+
+
+
+            <div class="account-menu">
+
+
+                <button
+                    class="account-button"
+                    id="accountButton"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="accountDropdown"
+                >
+
+                    <span class="account-avatar">
+
+                        {{ current_user.display_name[:1] | upper }}
+
+                    </span>
+
+
+                    <span class="account-copy">
+
+                        <strong>
+                            {{ current_user.display_name }}
+                        </strong>
+
+                        <small>
+                            {{ current_user.role | capitalize }}
+                        </small>
+
+                    </span>
+
+
+                    <svg
+                        class="chevron"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="m8 10 4 4 4-4"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+
+                </button>
+
+
+
+                <div
+                    class="account-dropdown"
+                    id="accountDropdown"
+                    hidden
+                >
+
+
+                    <div class="account-dropdown-user">
+
+                        <strong>
+                            {{ current_user.display_name }}
+                        </strong>
+
+                        <span>
+                            @{{ current_user.username }}
+                        </span>
+
+                    </div>
+                    {% if not current_user_is_admin %}
+
+<form
+    action="/account/theme"
+    method="post"
+    style="
+        padding: 10px 12px;
+        display: grid;
+        gap: 8px;
+    "
+>
+
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="{{ csrf_token }}"
+    >
+
+    <label
+        for="memberTheme"
+        style="
+            font-size: 11px;
+            opacity: 0.7;
+        "
+    >
+        Appearance
+    </label>
+
+
+    <select
+        id="memberTheme"
+        name="theme"
+        style="
+            width: 100%;
+            padding: 9px 10px;
+            border-radius: 9px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: inherit;
+        "
+    >
+
+        <option
+            value="default"
+            {% if theme_preference == "default" %}selected{% endif %}
+        >
+            Use Vanta default
+        </option>
+
+        <option
+            value="system"
+            {% if theme_preference == "system" %}selected{% endif %}
+        >
+            System
+        </option>
+
+        <option
+            value="dark"
+            {% if theme_preference == "dark" %}selected{% endif %}
+        >
+            Dark
+        </option>
+
+        <option
+            value="light"
+            {% if theme_preference == "light" %}selected{% endif %}
+        >
+            Light
+        </option>
+
+    </select>
+
+
+    <button
+        type="submit"
+        style="
+            padding: 8px 10px;
+            border: 0;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 600;
+        "
+    >
+        Apply theme
+    </button>
+
+</form>
+
+{% endif %}
+
+
+                    {% if current_user_is_admin %}
+
+                        <a href="/admin">
+                            Administration
+                        </a>
+
+                        <a href="/admin/settings">
+                            Settings
+                        </a>
+
+                    {% endif %}
+
+
+                    <form
+    action="/logout"
+    method="post"
+>
+
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="{{ csrf_token }}"
+    >
+
+    <button
+        class="dropdown-danger"
+        type="submit"
+    >
+        Sign out
+    </button>
+
+</form>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- ==================================================
+         HERO
+         ================================================== -->
+
+    <main class="main-content">
+
+
+        <section class="hero-section">
+
+
+            <div class="hero-copy">
+
+
+                <span class="eyebrow">
+                    YOUR PRIVATE CLOUD
+                </span>
+
+
+                <h1>
+                    Securely yours,
+                    <span>always.</span>
+                </h1>
+
+
+                <p>
+                    Upload, organize, preview, and access your files
+                    privately across your home network.
+                </p>
+
+
+
+                <!-- ======================================
+                     SEARCH
+                     ====================================== -->
+
+               <div class="search-wrap">
+
+
+    <svg
+        class="search-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+    >
+        <circle
+            cx="11"
+            cy="11"
+            r="6.5"
+            stroke="currentColor"
+            stroke-width="1.6"
+        />
+
+        <path
+            d="m16 16 4 4"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+        />
+    </svg>
+
+
+    <input
+        id="searchInput"
+        type="search"
+        placeholder="Search your cloud..."
+        autocomplete="off"
+        spellcheck="false"
+        aria-autocomplete="list"
+        aria-controls="searchSuggestions"
+        aria-expanded="false"
+    >
+
+
+    <button
+        class="search-clear"
+        id="searchClear"
+        type="button"
+        aria-label="Clear search"
+        hidden
+    >
+        ×
+    </button>
+
+
+    <!-- ==============================================
+         SEARCH AUTOCOMPLETE
+         ============================================== -->
+
+    <div
+        class="search-suggestions"
+        id="searchSuggestions"
+        role="listbox"
+        hidden
+    ></div>
+
+
+</div>
+
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 STORAGE CARD
+                 ========================================== -->
+
+            <aside class="storage-card">
+
+
+                <div class="storage-header">
+
+
+                    <div>
+
+                        <span class="eyebrow">
+                            STORAGE
+                        </span>
+
+                        <h2>
+                            Local SSD
+                        </h2>
+
+                    </div>
+
+
+                    <span class="online-pill">
+
+                        <span></span>
+
+                        Online
+
+                    </span>
+
+
+                </div>
+
+
+
+                <div class="storage-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <rect
+                            x="5"
+                            y="3.5"
+                            width="14"
+                            height="17"
+                            rx="3"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                        />
+
+                        <path
+                            d="M8.5 8h7M8.5 12h7"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                        />
+
+                        <circle
+                            cx="15.5"
+                            cy="16"
+                            r="1"
+                            fill="currentColor"
+                        />
+                    </svg>
+
+                </div>
+
+
+
+                <div class="storage-number">
+
+                    {{ storage.vanta_used_text }}
+
+                </div>
+
+
+                <p class="storage-caption">
+                    stored in Vanta Cloud
+                </p>
+
+
+
+                <div class="drive-label-row">
+
+                    <span>
+                        Drive usage
+                    </span>
+
+                    <strong>
+                        {{ storage.drive_percent }}%
+                    </strong>
+
+                </div>
+
+
+
+                <div
+                    class="storage-progress"
+                    role="progressbar"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="{{ storage.drive_percent }}"
+                >
+
+                    <div
+    class="storage-progress-value"
+    style="--storage-width: {{ storage.drive_percent }}%;"
+></div>
+
+                </div>
+
+
+
+                <div class="storage-footer">
+
+                    <span>
+                        {{ storage.drive_free_text }} free
+                    </span>
+
+                    <span>
+                        {{ storage.drive_total_text }} total
+                    </span>
+
+                </div>
+
+
+            </aside>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             QUICK ACTIONS
+             ================================================== -->
+
+        {% if can_upload %}
+
+        <section class="quick-actions">
+
+
+            <button
+                class="upload-main-button"
+                id="openUploadButton"
+                type="button"
+            >
+
+                <span class="upload-button-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 16V5"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                        />
+
+                        <path
+                            d="m8 9 4-4 4 4"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+
+                        <path
+                            d="M5 19h14"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+
+                </span>
+
+
+                <span>
+
+                    <strong>
+                        Upload files
+                    </strong>
+
+                    <small>
+                        Add files to your private cloud
+                    </small>
+
+                </span>
+
+            </button>
+
+
+        </section>
+
+
+
+        {% endif %}
+
+
+        <!-- ==================================================
+             CATEGORIES
+             ================================================== -->
+
+        <section class="library-section">
+
+
+            <div class="section-heading">
+
+
+                <div>
+
+                    <span class="eyebrow">
+                        LIBRARY
+                    </span>
+
+                    <h2>
+                        Browse by type
+                    </h2>
+
+                </div>
+
+
+                <button
+                    class="text-button active"
+                    type="button"
+                    data-category="all"
+                >
+                    View all
+                </button>
+
+
+            </div>
+
+
+
+            <div class="category-grid">
+
+
+                <!-- PHOTOS -->
+
+                <button
+                    class="category-card"
+                    type="button"
+                    data-category="Photos"
+                >
+
+                    <span class="category-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <rect
+                                x="3.5"
+                                y="4"
+                                width="17"
+                                height="16"
+                                rx="3"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+
+                            <circle
+                                cx="9"
+                                cy="9"
+                                r="1.7"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+
+                            <path
+                                d="m5.5 17 4.4-4.6 3 3 2-2 3.6 3.6"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+
+                    </span>
+
+
+                    <span class="category-copy">
+
+                        <strong>
+                            Photos
+                        </strong>
+
+                        <small>
+                            Images & memories
+                        </small>
+
+                    </span>
+
+
+                    <span class="category-arrow">
+                        ›
+                    </span>
+
+                </button>
+
+
+
+                <!-- VIDEOS -->
+
+                <button
+                    class="category-card"
+                    type="button"
+                    data-category="Videos"
+                >
+
+                    <span class="category-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <rect
+                                x="3.5"
+                                y="5"
+                                width="17"
+                                height="14"
+                                rx="3"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+
+                            <path
+                                d="m10 9 5 3-5 3V9Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+
+                    </span>
+
+
+                    <span class="category-copy">
+
+                        <strong>
+                            Videos
+                        </strong>
+
+                        <small>
+                            Movies & clips
+                        </small>
+
+                    </span>
+
+
+                    <span class="category-arrow">
+                        ›
+                    </span>
+
+                </button>
+
+
+
+                <!-- MUSIC -->
+
+                <button
+                    class="category-card"
+                    type="button"
+                    data-category="Music"
+                >
+
+                    <span class="category-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M10 18V7l8-2v11"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+
+                            <circle
+                                cx="7.5"
+                                cy="18"
+                                r="2.5"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+
+                            <circle
+                                cx="15.5"
+                                cy="16"
+                                r="2.5"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                        </svg>
+
+                    </span>
+
+
+                    <span class="category-copy">
+
+                        <strong>
+                            Music
+                        </strong>
+
+                        <small>
+                            Audio & playlists
+                        </small>
+
+                    </span>
+
+
+                    <span class="category-arrow">
+                        ›
+                    </span>
+
+                </button>
+
+
+
+                <!-- DOCUMENTS -->
+
+                <button
+                    class="category-card"
+                    type="button"
+                    data-category="Documents"
+                >
+
+                    <span class="category-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M7 3.5h7l4 4V20H7V3.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linejoin="round"
+                            />
+
+                            <path
+                                d="M14 3.5V8h4M9.5 12h6M9.5 15h6"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+
+                    </span>
+
+
+                    <span class="category-copy">
+
+                        <strong>
+                            Documents
+                        </strong>
+
+                        <small>
+                            PDFs & files
+                        </small>
+
+                    </span>
+
+
+                    <span class="category-arrow">
+                        ›
+                    </span>
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             FILES
+             ================================================== -->
+
+        <section
+            class="files-section"
+            id="filesSection"
+        >
+
+
+            <div class="section-heading">
+
+
+                <div>
+
+                    <span class="eyebrow">
+                        SHARED FILES
+                    </span>
+
+                    <h2 id="filesHeading">
+                        Recent files
+                    </h2>
+
+                </div>
+
+
+                <span
+                    class="file-count"
+                    id="fileCount"
+                >
+                    {{ files | length }}
+                    {% if files | length == 1 %}
+                        item
+                    {% else %}
+                        items
+                    {% endif %}
+                </span>
+
+
+            </div>
+
+
+
+            {% if files %}
+
+
+                <div
+                    class="file-grid"
+                    id="fileGrid"
+                >
+
+
+                    {% for file in files %}
+
+
+                        {% set owns_file = file.uploaded_by_id == current_user.id %}
+                        {% set can_rename_file = file.id and (current_user_is_admin or (can_rename and owns_file)) %}
+                        {% set can_trash_file = can_trash and (current_user_is_admin or owns_file) %}
+                        {% set has_menu_actions = can_preview or can_download or can_rename_file or can_trash_file %}
+
+
+                        <article
+                            class="file-card"
+                            data-file-card
+                            data-name="{{ file.name | lower }}"
+                            data-category="{{ file.category }}"
+                        >
+
+
+                            <div class="file-card-top">
+
+
+                                <div
+                                    class="file-type-icon"
+                                    data-file-category="{{ file.category }}"
+                                >
+
+
+                                    {% if file.category == "Photos" %}
+
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            aria-hidden="true"
+                                        >
+                                            <rect
+                                                x="3.5"
+                                                y="4"
+                                                width="17"
+                                                height="16"
+                                                rx="3"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            />
+
+                                            <path
+                                                d="m5.5 17 4.4-4.6 3 3 2-2 3.6 3.6"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            />
+                                        </svg>
+
+
+                                    {% elif file.category == "Videos" %}
+
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            aria-hidden="true"
+                                        >
+                                            <rect
+                                                x="3.5"
+                                                y="5"
+                                                width="17"
+                                                height="14"
+                                                rx="3"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            />
+
+                                            <path
+                                                d="m10 9 5 3-5 3V9Z"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                                stroke-linejoin="round"
+                                            />
+                                        </svg>
+
+
+                                    {% elif file.category == "Music" %}
+
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                d="M10 18V7l8-2v11"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            />
+
+                                            <circle
+                                                cx="7.5"
+                                                cy="18"
+                                                r="2.5"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            />
+
+                                            <circle
+                                                cx="15.5"
+                                                cy="16"
+                                                r="2.5"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            />
+                                        </svg>
+
+
+                                    {% else %}
+
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            aria-hidden="true"
+                                        >
+                                            <path
+                                                d="M7 3.5h7l4 4V20H7V3.5Z"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                                stroke-linejoin="round"
+                                            />
+
+                                            <path
+                                                d="M14 3.5V8h4"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            />
+                                        </svg>
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+
+                                {% if has_menu_actions %}
+
+                                    <div class="file-menu-wrap">
+
+
+                                        <button
+                                            class="file-menu-button"
+                                            type="button"
+                                            aria-label="File actions"
+                                            aria-expanded="false"
+                                        >
+
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+
+                                        </button>
+
+
+                                        <div
+                                            class="file-menu"
+                                            hidden
+                                        >
+
+
+                                            {% if can_preview %}
+
+                                                <a
+                                                    href="/preview?path={{ file.relative_path | urlencode }}"
+                                                    target="_blank"
+                                                    rel="noopener"
+                                                >
+                                                    Preview
+                                                </a>
+
+                                            {% endif %}
+
+
+                                            {% if can_download %}
+
+                                                <a
+                                                    href="/download?path={{ file.relative_path | urlencode }}"
+                                                >
+                                                    Download
+                                                </a>
+
+                                            {% endif %}
+
+
+                                            {% if can_rename_file %}
+
+                                                <button
+                                                    class="rename-action"
+                                                    type="button"
+                                                    data-rename-button
+                                                    data-file-id="{{ file.id }}"
+                                                    data-file-name="{{ file.name }}"
+                                                >
+                                                    Rename
+                                                </button>
+
+                                            {% endif %}
+
+
+                                            {% if can_trash_file %}
+
+<form
+    action="/trash"
+    method="post"
+    class="trash-form"
+>
+
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="{{ csrf_token }}"
+    >
+
+    <input
+        type="hidden"
+        name="path"
+        value="{{ file.relative_path }}"
+    >
+
+    <button
+        class="danger-action"
+        type="submit"
+    >
+        Move to Trash
+    </button>
+
+</form>
+
+                                            {% endif %}
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+
+                            <div class="file-info">
+
+
+                                <strong
+                                    class="file-name"
+                                    title="{{ file.name }}"
+                                >
+                                    {{ file.name }}
+                                </strong>
+
+
+                                <div class="file-meta">
+
+                                    <span>
+                                        {{ file.category }}
+                                    </span>
+
+                                    <span class="meta-dot"></span>
+
+                                    <span>
+                                        {{ file.size_text }}
+                                    </span>
+
+                                </div>
+                                {% if file.owner_name or file.uploaded_at_iso %}
+
+                                    <div class="file-owner-meta">
+
+                                        {% if file.owner_name %}
+
+                                            <span>
+                                                {{ file.owner_name }}
+                                            </span>
+
+                                        {% endif %}
+
+
+                                        {% if file.owner_name and file.uploaded_at_iso %}
+
+                                            <span class="meta-dot"></span>
+
+                                        {% endif %}
+
+
+                                        {% if file.uploaded_at_iso %}
+
+                                            <time
+                                                class="local-upload-time"
+                                                datetime="{{ file.uploaded_at_iso }}"
+                                            >
+                                                Uploaded recently
+                                            </time>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+
+                            {% if can_preview or can_download %}
+
+                                <div class="file-actions">
+
+
+                                    {% if can_preview %}
+
+                                        <a
+                                            class="file-action-button"
+                                            href="/preview?path={{ file.relative_path | urlencode }}"
+                                            target="_blank"
+                                            rel="noopener"
+                                        >
+                                            Preview
+                                        </a>
+
+                                    {% endif %}
+
+
+                                    {% if can_download %}
+
+                                        <a
+                                            class="file-action-button"
+                                            href="/download?path={{ file.relative_path | urlencode }}"
+                                        >
+                                            Download
+                                        </a>
+
+                                    {% endif %}
+
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </article>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+                <!-- ======================================
+                     NO SEARCH RESULTS
+                     ====================================== -->
+
+                <div
+                    class="empty-state"
+                    id="noResults"
+                    hidden
+                >
+
+                    <div class="empty-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <circle
+                                cx="11"
+                                cy="11"
+                                r="6.5"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+
+                            <path
+                                d="m16 16 4 4"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+
+                    </div>
+
+
+                    <h3>
+                        No files found
+                    </h3>
+
+                    <p>
+                        Try another search or category.
+                    </p>
+
+                </div>
+
+
+            {% else %}
+
+
+                <!-- ======================================
+                     EMPTY CLOUD
+                     ====================================== -->
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M7.5 18.5H17a4 4 0 0 0 .7-7.94A6 6 0 0 0 6.26 8.8 4.85 4.85 0 0 0 7.5 18.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                        </svg>
+
+                    </div>
+
+
+                    <h3>
+                        Your cloud is empty
+                    </h3>
+
+                    <p>
+                        Upload your first file to Vanta Cloud.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+{% if can_rename %}
+
+<!-- ======================================================
+     RENAME MODAL
+     ====================================================== -->
+
+<div
+    class="modal-backdrop"
+    id="renameModal"
+    hidden
+>
+
+    <section
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="renameModalTitle"
+    >
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    FILE ACTION
+                </span>
+
+                <h2 id="renameModalTitle">
+                    Rename file
+                </h2>
+
+            </div>
+
+            <button
+                class="modal-close"
+                id="closeRenameButton"
+                type="button"
+                aria-label="Close rename window"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="renameForm"
+            method="post"
+        >
+        <input
+    type="hidden"
+    name="csrf_token"
+    value="{{ csrf_token }}"
+>
+
+            <div class="rename-field">
+
+                <label for="renameInput">
+                    New filename
+                </label>
+
+                <input
+                    id="renameInput"
+                    name="new_name"
+                    type="text"
+                    autocomplete="off"
+                    spellcheck="false"
+                    required
+                >
+
+            </div>
+
+
+            <p class="rename-note">
+                Keep the same file extension.
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    class="modal-secondary-button"
+                    id="cancelRenameButton"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="modal-primary-button"
+                    type="submit"
+                >
+                    Rename
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</div>
+
+
+{% endif %}
+
+
+{% if can_upload %}
+
+<!-- ======================================================
+     UPLOAD MODAL
+     ====================================================== -->
+
+<div
+    class="modal-backdrop"
+    id="uploadModal"
+    hidden
+>
+
+
+    <section
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="uploadModalTitle"
+    >
+
+
+        <div class="modal-header">
+
+
+            <div>
+
+                <span class="eyebrow">
+                    VANTA CLOUD
+                </span>
+
+                <h2 id="uploadModalTitle">
+                    Upload files
+                </h2>
+
+            </div>
+
+
+            <button
+                class="modal-close"
+                id="closeUploadButton"
+                type="button"
+                aria-label="Close upload window"
+            >
+                ×
+            </button>
+
+
+        </div>
+
+
+
+        <form
+            action="/upload"
+            method="post"
+            enctype="multipart/form-data"
+            id="uploadForm"
+        >
+        <input
+    type="hidden"
+    name="csrf_token"
+    value="{{ csrf_token }}"
+>
+
+
+            <label
+                class="drop-zone"
+                id="dropZone"
+                for="fileInput"
+            >
+
+
+                <span class="drop-zone-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 15V5"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                        />
+
+                        <path
+                            d="m8 9 4-4 4 4"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+
+                        <path
+                            d="M5 19h14"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+
+                </span>
+
+
+                <strong>
+                    {% if settings.multiple_uploads %}
+                        Choose files
+                    {% else %}
+                        Choose a file
+                    {% endif %}
+                </strong>
+
+
+                <span>
+                    {% if settings.multiple_uploads %}
+                        or drag and drop them here
+                    {% else %}
+                        or drag and drop it here
+                    {% endif %}
+                    · {{ settings.max_upload_mb }} MB max per file
+                </span>
+
+
+                <input
+                    id="fileInput"
+                    name="file"
+                    type="file"
+                    data-max-upload-mb="{{ settings.max_upload_mb }}"
+                    {% if settings.multiple_uploads %}
+                        multiple
+                    {% endif %}
+                    required
+                >
+
+
+            </label>
+
+
+
+            <div
+                class="upload-selection"
+                id="uploadSelection"
+                hidden
+            >
+
+
+                <div class="upload-selection-header">
+
+                    <strong>
+                        Selected files
+                    </strong>
+
+                    <span id="selectedFileCount">
+                        0 files
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="upload-file-list"
+                    id="uploadFileList"
+                ></div>
+
+
+            </div>
+
+
+
+            <div class="modal-actions">
+
+
+                <button
+                    class="modal-secondary-button"
+                    id="cancelUploadButton"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    class="modal-primary-button"
+                    id="uploadSubmitButton"
+                    type="submit"
+                >
+                    Upload
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </section>
+
+
+</div>
+
+
+
+{% endif %}
+
+
+<!-- ======================================================
+     TOAST
+     ====================================================== -->
+
+<div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+    hidden
+></div>
+
+
+</body>
+
+</html>
