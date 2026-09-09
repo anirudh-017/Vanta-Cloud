@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import mimetypes
 import shutil
@@ -9,10 +10,22 @@ from fastapi import HTTPException
 # STORAGE CONFIGURATION
 # ============================================================
 
-STORAGE_DIR = Path(
-    r"C:\FamilyCloudStorage"
+BASE_DIR = (
+    Path(__file__)
+    .resolve()
+    .parents[2]
 )
 
+DEFAULT_STORAGE_DIR = (
+    BASE_DIR / "storage"
+)
+
+STORAGE_DIR = Path(
+    os.getenv(
+        "VANTA_STORAGE_DIR",
+        str(DEFAULT_STORAGE_DIR),
+    )
+).expanduser().resolve()
 
 TRASH_DIR = (
     STORAGE_DIR / ".Trash"

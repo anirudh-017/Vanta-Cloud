@@ -24,3 +24,5 @@ htmlcov/
 .idea/
 .DS_Store
 Thumbs.db
+# Local Vanta Cloud file storage
+storage/
